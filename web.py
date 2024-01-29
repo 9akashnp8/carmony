@@ -28,4 +28,11 @@ def update(payload: Update):
     setattr(handler, payload.name, int(payload.value))
     volume_list = handler.get_volumes()
     loop.adjust_volumes(volume_list)
-    return {"status": "success"}
+    return {
+        "bass": "{:.3f}".format(volume_list[0]),
+        "pad": "{:.3f}".format(volume_list[1]),
+        "synth": "{:.3f}".format(volume_list[2]),
+        "guitar": "{:.3f}".format(volume_list[3]),
+        "drums": "{:.3f}".format(volume_list[4]),
+        "drums_2": "{:.3f}".format(volume_list[5])
+    }
