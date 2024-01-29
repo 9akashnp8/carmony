@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carmony - Web Client</title>
+</head>
+<body>
+    <h1>Carmony - Webclient</h1>
+    <section>
+        <h2>Controls</h2>
+        <div>
+            <button onclick="playAudio()">Play</button>
+        </div>
+        <div>
+            <label for="speedometer">Speed</label>
+            <input type="range" name="speed" id="speedometer" min="0" max="180">
+        </div>
+        <div>
+            <label for="rpm">RPM</label>
+            <input type="range" name="rpm" id="tachometer" min="1000" max="8000">
+        </div>
+        <div>
+            <label for="accelerator_position">Accelerator Position</label>
+            <input type="range" name="accel_pos" id="accelerator" min="0" max="10">
+        </div>
+    </section>
+
+    <script src="index.js"></script>
+</body>
+</html>
