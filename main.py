@@ -1,9 +1,8 @@
 import pygame
 import os
 import time
-from AudioLoop import AudioLoop
-from OBDHandler import OBDHandler
-import obd
+from handlers.AudioLoop import AudioLoop
+from handlers.OBDHandler import OBDHandler
 
 def main():
     file_paths = os.listdir("wavs/")
