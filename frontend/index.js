@@ -22,6 +22,8 @@ function updateCurrentMix(currentMix) {
 async function handleAcceleratorChange(event) {
     const accelPos = event.target.value
     const { speed, rpm } = simulateEngineState(+accelPos)
+    speedometer.parentNode.lastChild.textContent = `${speed} km/h`
+    tachometer.parentNode.lastChild.textContent = `${rpm} rpm`
 
     const body = { accel_pos: +accelPos, speed, rpm }
     const response = await fetch('/update', {
