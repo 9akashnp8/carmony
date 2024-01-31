@@ -14,8 +14,9 @@ file_paths = ["wavs/"+file for file in file_paths]
 loop = AudioLoop(file_paths)
 
 class Update(BaseModel):
-    name: str
-    value: str
+    accel_pos: int
+    rpm: int
+    speed: float
 
 @app.get("/play")
 def play():
@@ -25,7 +26,9 @@ def play():
 
 @app.post("/update")
 def update(payload: Update):
-    setattr(handler, payload.name, int(payload.value))
+    handler.accel_pos = payload.accel_pos
+    handler.rpm = payload.rpm
+    handler.speed = payload.speed
     volume_list = handler.get_volumes()
     loop.adjust_volumes(volume_list)
     return {
