@@ -58,6 +58,8 @@ document.addEventListener('keydown', (event) => {
 document.addEventListener('keyup', (event) => {
     if (event.key === 'ArrowUp') {
         pressed = false
+        currentRpm = 0
+        tachometer.setAttribute('value', currentRpm)
     }
 })
 
