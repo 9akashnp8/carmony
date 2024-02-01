@@ -1,15 +1,6 @@
 
 const speedometer = document.getElementById('speedometer')
 const tachometer = document.getElementById('tachometer')
-const accelerator = document.getElementById('accelerator')
-
-function simulateEngineState(accelPos) {
-    const rpm = (60 * accelPos) + 1000
-    const speed = (rpm - 2614) / 22.229
-    speedometer.setAttribute('value', speed < 0 ? 0 : speed)
-    tachometer.setAttribute('value', rpm)
-    return { speed, rpm}
-}
 
 function updateCurrentMix(currentMix) {
     const stems = ['bass', 'pad', 'synth', 'guitar', 'drums', 'drums_2']
@@ -19,7 +10,7 @@ function updateCurrentMix(currentMix) {
     })
 }
 
-async function handleAcceleratorChange(event) {
+async function handleRpmChange(event) {
     const accelPos = event.target.value
     const { speed, rpm } = simulateEngineState(+accelPos)
     speedometer.parentNode.lastChild.textContent = `${speed} km/h`
@@ -38,7 +29,39 @@ async function handleAcceleratorChange(event) {
     }
 }
 
-accelerator.addEventListener('change', handleAcceleratorChange)
+const MAXRPM = 7000
+const IDLE_RPM = 850
+let currentRpm = 2
+let pressed = false
+let pressedAt = null
+let pressedDuration = null
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowUp') {
+        if (pressed == false) {
+            pressedAt = Date.now()
+            pressed = true
+        }
+        pressedDuration = (Date.now() - pressedAt) / 1000
+        if (currentRpm <= MAXRPM) {
+            currentRpm = ((pressedDuration * 60) ** 2) // non linear increase
+            console.log(pressedDuration, currentRpm)
+            if (currentRpm > 0) {
+                const speed = (currentRpm - 2614) / 22.229
+                speedometer.setAttribute('value', speed)
+                tachometer.setAttribute('value', currentRpm)
+            }
+        }
+    }
+})
+
+document.addEventListener('keyup', (event) => {
+    if (event.key === 'ArrowUp') {
+        pressed = false
+    }
+})
+
+tachometer.addEventListener('change', handleRpmChange)
 
 async function playAudio() {
     const response = await fetch('/play')
