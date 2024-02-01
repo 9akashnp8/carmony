@@ -8,10 +8,7 @@
 <body>
     <h1>Carmony - Webclient</h1>
     <section>
-        <h2>Controls</h2>
-        <div>
-            <button onclick="playAudio()">Play</button>
-        </div>
+        <h2>Car Controls</h2>
         <div>
             <label for="speedometer">Speed</label>
             <input type="range" name="speed" id="speedometer" min="0" max="180" value="0" disabled>
@@ -19,17 +16,18 @@
         </div>
         <div>
             <label for="rpm">RPM</label>
-            <input type="range" name="rpm" id="tachometer" min="0" max="8000" value="1000" disabled>
+            <input type="range" name="rpm" id="tachometer" min="0" max="8000" value="857" disabled>
             <span id="tachoDisplay"></span>
         </div>
         <div>
-            <label for="accelerator_position">Accelerator Position</label>
-            <input type="range" name="accel_pos" id="accelerator" min="0" max="100" value="0">
-            <span id="accelPosDisplay"></span>
+            <p>Press Arrow Up for Throttle</p>
         </div>
     </section>
     <section>
         <h2>Current Mix</h2>
+        <div>
+            <button onclick="playAudio()">Play</button>
+        </div>
         <ul>
             <li>Bass: <span id="bass"></span> </li>
             <li>Pad:  <span id="pad"></span></li>
