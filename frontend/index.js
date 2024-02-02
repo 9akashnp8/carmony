@@ -31,39 +31,32 @@ async function handleRpmChange(event) {
 
 const MAXRPM = 7000
 const IDLE_RPM = 850
-let currentRpm = 2
-let pressed = false
-let pressedAt = null
-let pressedDuration = null
+const RATE_OF_RPM_INCREASE = 500
+const RATE_OF_RPM_DECREASE = 300
+let currentRpm = IDLE_RPM
+let rpm = 0
+
+function updateRpm() {
+    currentRpm += rpm
+    currentRpm = Math.max(IDLE_RPM, currentRpm)
+    const speed = (currentRpm - 2614) / 22.229
+    speedometer.setAttribute('value', speed)
+    tachometer.setAttribute('value', currentRpm)
+}
 
 document.addEventListener('keydown', (event) => {
     if (event.key === 'ArrowUp') {
-        if (pressed == false) {
-            pressedAt = Date.now()
-            pressed = true
-        }
-        pressedDuration = (Date.now() - pressedAt) / 1000
-        if (currentRpm <= MAXRPM) {
-            currentRpm = ((pressedDuration * 60) ** 2) // non linear increase
-            console.log(pressedDuration, currentRpm)
-            if (currentRpm > 0) {
-                const speed = (currentRpm - 2614) / 22.229
-                speedometer.setAttribute('value', speed)
-                tachometer.setAttribute('value', currentRpm)
-            }
-        }
+        rpm = RATE_OF_RPM_INCREASE
     }
 })
 
 document.addEventListener('keyup', (event) => {
     if (event.key === 'ArrowUp') {
-        pressed = false
-        currentRpm = 0
-        tachometer.setAttribute('value', currentRpm)
+        rpm = -RATE_OF_RPM_DECREASE
     }
 })
 
-tachometer.addEventListener('change', handleRpmChange)
+setInterval(updateRpm, 100)
 
 async function playAudio() {
     const response = await fetch('/play')
